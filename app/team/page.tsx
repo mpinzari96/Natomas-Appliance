@@ -85,5 +85,12 @@ const teamMembers = [
     image: "/images/team/daniel-gavrilenko.jpg",
     bio: "Daniel brings extensive expertise in appliance repair and is dedicated to providing top-quality service to every customer.",
   },
-  // Add more team members here in the future
+  {
+    name: "Tim Gerbel",
+    role: "Sales Manager",
+    phone: "(916) 477-1897",
+    email: "Customerservice@natomasappliance.com",
+    image: "/images/team/tim-gerbel.jpg",
+    bio: "Tim leads our sales team with a focus on exceptional customer service and building strong relationships with our clients.",
+  },
 ]
