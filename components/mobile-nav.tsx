@@ -19,7 +19,7 @@ export function MobileNav() {
           <span className="sr-only">Toggle menu</span>
         </Button>
       </SheetTrigger>
-      
+
       {/* Add overflow-y-auto to enable scrolling */}
       <SheetContent side="left" className="flex flex-col pr-0 h-full overflow-y-auto">
         <div className="px-7">
@@ -69,6 +69,9 @@ export function MobileNav() {
           <Link href="/brands" className="px-7 text-base font-medium" onClick={() => setOpen(false)}>
             Brands
           </Link>
+          <Link href="/team" className="px-7 text-base font-medium" onClick={() => setOpen(false)}>
+            Meet the Team
+          </Link>
           <Link href="/testimonials" className="px-7 text-base font-medium" onClick={() => setOpen(false)}>
             Testimonials
           </Link>
@@ -86,8 +89,23 @@ export function MobileNav() {
 }
 
 const serviceAreas = [
-  "Antelope", "Carmichael", "Citrus Heights", "Elk Grove", "Elverta",
-  "Fair Oaks", "Folsom", "Granite Bay", "Lincoln", "Loomis", "Natomas",
-  "North Highlands", "Orangevale", "Rancho Cordova", "Rio Linda", "Rocklin",
-  "Roseville", "Sacramento", "West Sacramento",
+  "Antelope",
+  "Carmichael",
+  "Citrus Heights",
+  "Elk Grove",
+  "Elverta",
+  "Fair Oaks",
+  "Folsom",
+  "Granite Bay",
+  "Lincoln",
+  "Loomis",
+  "Natomas",
+  "North Highlands",
+  "Orangevale",
+  "Rancho Cordova",
+  "Rio Linda",
+  "Rocklin",
+  "Roseville",
+  "Sacramento",
+  "West Sacramento",
 ]

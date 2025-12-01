@@ -52,6 +52,12 @@ export function SiteHeader() {
               Brands
             </Link>
             <Link
+              href="/team"
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+              Meet the Team
+            </Link>
+            <Link
               href="/testimonials"
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
             >
