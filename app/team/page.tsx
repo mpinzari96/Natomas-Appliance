@@ -60,4 +60,11 @@ const teamMembers = [
     email: "Support@natomasappliance.com",
     photo: "/images/team/daniel-gavrilenko.jpg",
   },
+  {
+    name: "Tim Gerbel",
+    title: "Sales Manager",
+    phone: "(916) 477-1897",
+    email: "Customerservice@natomasappliance.com",
+    photo: "/images/team/tim-gerbel.jpg",
+  },
 ]
