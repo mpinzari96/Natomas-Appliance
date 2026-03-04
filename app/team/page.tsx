@@ -1,6 +1,14 @@
+"use client"
+
 import Image from "next/image"
 import { Mail, Phone } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+
+declare global {
+  interface Window {
+    gtag_report_conversion?: (url: string) => boolean
+  }
+}
 
 export default function TeamPage() {
   return (
@@ -31,7 +39,16 @@ export default function TeamPage() {
                   <div className="space-y-2">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Phone className="h-4 w-4" />
-                      <a href={`tel:${member.phone}`} className="hover:text-primary hover:underline">
+                      <a
+                        href={`tel:${member.phone.replace(/\D/g, "")}`}
+                        onClick={(e) => {
+                          if (typeof window !== "undefined" && window.gtag_report_conversion) {
+                            e.preventDefault()
+                            window.gtag_report_conversion(`tel:${member.phone.replace(/\D/g, "")}`)
+                          }
+                        }}
+                        className="hover:text-primary hover:underline"
+                      >
                         {member.phone}
                       </a>
                     </div>
