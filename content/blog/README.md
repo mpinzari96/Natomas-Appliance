@@ -51,7 +51,7 @@ Omit `hero` and image blocks when you have no photo. Those slots disappear. Do n
 
 Before you commit a photo, strip GPS and other location metadata. Use owned or licensed images. Do not show customer faces, house numbers, or street addresses.
 
-`kind: "placeholder"` is only for fixture files used on preview. Placeholders are invalid on draft and published posts.
+`kind: "placeholder"` is only for unpublished preview files (draft or fixture). Placeholders are invalid on published posts. Production 404s drafts and fixtures, so labeled intended-shot boxes never appear on the live site.
 
 ## Optional article sections
 
@@ -66,9 +66,11 @@ Related posts appear only when at least one other published post exists.
 
 The closing phone and booking CTA is already on the article page. Do not duplicate it in JSON.
 
-## Preview fixtures in this folder
+## Preview files in this folder
 
-`preview-fixture-template.json` and `preview-fixture-no-image.json` are labeled synthetic templates. They are not articles. They must stay `status: "fixture"`. Do not copy their bracketed sentences into a published post.
+`refrigerator-not-cooling-sacramento.json` is a real draft for preview review. It is not published. It has no publication date.
+
+`preview-fixture-no-image.json` is a labeled synthetic template used to check empty image slots. It is not an article. Keep it `status: "fixture"`.
 
 ## After launch: add the public Blog link
 

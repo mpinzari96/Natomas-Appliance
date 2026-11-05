@@ -315,6 +315,25 @@ test("fixture posts cannot carry a publication date", () => {
   )
 })
 
+test("disallowed markdown links fail the catalog", () => {
+  assert.throws(
+    () =>
+      loadFrom([
+        [
+          "links.json",
+          publishedSource({
+            intro: "See [this](https://example.com/not-allowed).",
+          }),
+        ],
+      ]),
+    (error: unknown) => {
+      assert.ok(error instanceof BlogCatalogError)
+      assert.match(error.message, /disallowed link/)
+      return true
+    },
+  )
+})
+
 test("placeholders are rejected on published posts", () => {
   assert.throws(
     () =>
@@ -334,7 +353,7 @@ test("placeholders are rejected on published posts", () => {
       ]),
     (error: unknown) => {
       assert.ok(error instanceof BlogCatalogError)
-      assert.match(error.message, /placeholders/)
+      assert.match(error.message, /placeholders are not allowed on published posts/)
       return true
     },
   )
@@ -401,17 +420,48 @@ test("fixture metadata is noindex and omits Open Graph images", () => {
   assert.equal(metadata.twitter && "images" in metadata.twitter ? metadata.twitter.images : undefined, undefined)
 })
 
-test("committed catalog is fixture-only, unpublished in production, and discoverable by adding JSON files", () => {
+test("draft posts may include labeled placeholders and stay off the published list", () => {
+  const catalog = loadFrom([
+    [
+      "draft.json",
+      fixtureSource({
+        slug: "draft-with-placeholder",
+        status: "draft",
+        seoTitle: "Draft with placeholder",
+        seoDescription: "Draft placeholder description.",
+        intro: "Draft intro.",
+        hero: {
+          kind: "placeholder",
+          label: "Intended shot: 16:9 hero",
+          alt: "Labeled intended-shot placeholder, not a real photo.",
+          aspect: "16:9",
+          fit: "cover",
+        },
+      }),
+    ],
+  ])
+  assert.equal(catalog.published.length, 0)
+  assert.equal(catalog.posts[0]?.status, "draft")
+  assert.equal(catalog.posts[0]?.hero?.kind, "placeholder")
+  assert.equal(isPostVisible(catalog.posts[0], productionEnv), false)
+  assert.equal(isPostVisible(catalog.posts[0], previewEnv), true)
+})
+
+test("committed catalog keeps the refrigerator draft and no-image fixture unpublished", () => {
   resetBlogCatalogCache()
   const catalog = loadBlogCatalog()
   assert.equal(catalog.published.length, 0)
   const slugs = catalog.posts.map((post) => post.slug).sort()
-  assert.deepEqual(slugs, ["preview-fixture-no-image", "preview-fixture-template"])
-  for (const post of catalog.posts) {
-    assert.equal(post.status, "fixture")
-    assert.equal(isPostVisible(post, productionEnv), false)
-    assert.equal(isPostVisible(post, previewEnv), true)
-  }
+  assert.deepEqual(slugs, ["preview-fixture-no-image", "refrigerator-not-cooling-sacramento"])
+  const draft = catalog.posts.find((post) => post.slug === "refrigerator-not-cooling-sacramento")
+  const fixture = catalog.posts.find((post) => post.slug === "preview-fixture-no-image")
+  assert.equal(draft?.status, "draft")
+  assert.equal(fixture?.status, "fixture")
+  assert.equal("publishedAt" in (draft ?? {}), false)
+  assert.equal(isPostVisible(draft!, productionEnv), false)
+  assert.equal(isPostVisible(fixture!, productionEnv), false)
+  assert.equal(isPostVisible(draft!, previewEnv), true)
+  assert.deepEqual(publishedSitemapEntries(catalog.published), [])
 })
 
 test("published metadata uses the absolute SEO title and a photo only when the hero is real", () => {

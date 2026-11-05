@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { BlogCta } from "@/components/blog/blog-cta"
 import { BlogImageBlock } from "@/components/blog/blog-image"
+import { BlogRichText } from "@/components/blog/blog-rich-text"
 import { formatBlogDate } from "@/lib/blog/parse"
 import type { BlogPost, PublishedBlogPost } from "@/lib/blog/types"
 
@@ -13,7 +14,7 @@ function StatusBanner({ post }: { post: BlogPost }) {
   const label =
     post.status === "fixture"
       ? "Preview fixture. Not a published article. Template copy only."
-      : "Draft article. Not published."
+      : "Draft article. Not published. Preview only."
 
   return (
     <p className="mb-6 rounded-md border border-dashed border-muted-foreground/40 bg-background px-4 py-3 text-sm font-medium">
@@ -53,7 +54,9 @@ export function BlogArticleHeader({ post }: { post: BlogPost }) {
       {post.status === "published" ? (
         <p className="mt-3 text-sm text-muted-foreground">{formatBlogDate(post.publishedAt)}</p>
       ) : null}
-      <p className="mt-4 text-lg text-muted-foreground">{post.intro}</p>
+      <p className="mt-4 text-lg text-muted-foreground">
+        <BlogRichText text={post.intro} />
+      </p>
     </header>
   )
 }
@@ -88,9 +91,28 @@ export function BlogArticleBody({
           if (block.type === "image") {
             return <BlogImageBlock key={index} image={block.image} />
           }
+          if (block.type === "list") {
+            const ListTag = block.ordered ? "ol" : "ul"
+            return (
+              <ListTag
+                key={index}
+                className={
+                  block.ordered
+                    ? "list-decimal space-y-2 pl-5 text-muted-foreground"
+                    : "list-disc space-y-2 pl-5 text-muted-foreground"
+                }
+              >
+                {block.items.map((item) => (
+                  <li key={item}>
+                    <BlogRichText text={item} />
+                  </li>
+                ))}
+              </ListTag>
+            )
+          }
           return (
             <p key={index} className="text-muted-foreground">
-              {block.text}
+              <BlogRichText text={block.text} />
             </p>
           )
         })}
@@ -101,7 +123,9 @@ export function BlogArticleBody({
           <h2 className="text-2xl font-semibold">Safe homeowner checks</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-muted-foreground">
             {post.homeownerChecks.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item}>
+                <BlogRichText text={item} />
+              </li>
             ))}
           </ul>
         </section>
@@ -112,7 +136,9 @@ export function BlogArticleBody({
           <h2 className="text-2xl font-semibold">Technician-only work</h2>
           <ul className="mt-4 list-disc space-y-2 pl-5 text-muted-foreground">
             {post.technicianOnly.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item}>
+                <BlogRichText text={item} />
+              </li>
             ))}
           </ul>
         </section>

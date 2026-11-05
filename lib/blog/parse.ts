@@ -1,9 +1,9 @@
 import { z } from "zod"
 
+import { disallowedMarkdownHrefs } from "./safe-links"
 import type {
   BlogBodyBlock,
   BlogImage,
-  BlogLink,
   BlogPost,
   BlogSlug,
   FixtureBlogPost,
@@ -91,10 +91,19 @@ const imageBlockSchema = z
   })
   .strict()
 
+const listBlockSchema = z
+  .object({
+    type: z.literal("list"),
+    ordered: z.boolean(),
+    items: z.array(z.string().trim().min(1)).min(1),
+  })
+  .strict()
+
 const bodyBlockSchema = z.discriminatedUnion("type", [
   headingBlockSchema,
   paragraphBlockSchema,
   imageBlockSchema,
+  listBlockSchema,
 ])
 
 const serviceLinkSchema = z
@@ -137,6 +146,30 @@ export type ParseBlogPostResult =
 
 function formatIssue(fileName: string, path: string, message: string): string {
   return path ? `${fileName}: ${path} ${message}` : `${fileName}: ${message}`
+}
+
+function collectLinkedText(value: z.infer<typeof postInputSchema>): Array<[string, string]> {
+  const fields: Array<[string, string]> = [
+    ["intro", value.intro],
+    ["excerpt", value.excerpt],
+  ]
+  for (const [index, item] of (value.homeownerChecks ?? []).entries()) {
+    fields.push([`homeownerChecks.${index}`, item])
+  }
+  for (const [index, item] of (value.technicianOnly ?? []).entries()) {
+    fields.push([`technicianOnly.${index}`, item])
+  }
+  for (const [index, block] of value.body.entries()) {
+    if (block.type === "paragraph" || block.type === "heading") {
+      fields.push([`body.${index}.text`, block.text])
+    }
+    if (block.type === "list") {
+      for (const [itemIndex, item] of block.items.entries()) {
+        fields.push([`body.${index}.items.${itemIndex}`, item])
+      }
+    }
+  }
+  return fields
 }
 
 function collectImages(hero: BlogImage | undefined, body: BlogBodyBlock[]): BlogImage[] {
@@ -188,10 +221,16 @@ export function parseBlogPostFile(input: { data: unknown; fileName: string }): P
     issues.push(formatIssue(input.fileName, "modifiedAt", "must be on or after publishedAt"))
   }
 
-  if (value.status !== "fixture" && hasPlaceholder) {
+  if (value.status === "published" && hasPlaceholder) {
     issues.push(
-      formatIssue(input.fileName, "hero/body", "placeholders are only allowed on fixture posts"),
+      formatIssue(input.fileName, "hero/body", "placeholders are not allowed on published posts"),
     )
+  }
+
+  for (const [path, text] of collectLinkedText(value)) {
+    for (const href of disallowedMarkdownHrefs(text)) {
+      issues.push(formatIssue(input.fileName, path, `contains a disallowed link (${href})`))
+    }
   }
 
   if (issues.length > 0) {

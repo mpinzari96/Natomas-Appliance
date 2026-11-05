@@ -39,7 +39,13 @@ export type BlogImageBlock = {
   image: BlogImage
 }
 
-export type BlogBodyBlock = BlogHeadingBlock | BlogParagraphBlock | BlogImageBlock
+export type BlogListBlock = {
+  type: "list"
+  ordered: boolean
+  items: string[]
+}
+
+export type BlogBodyBlock = BlogHeadingBlock | BlogParagraphBlock | BlogImageBlock | BlogListBlock
 
 export type BlogLink = {
   href: string
