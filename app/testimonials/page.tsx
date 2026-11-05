@@ -40,7 +40,7 @@ export default function TestimonialsPage() {
                       <Star key={i} className="h-4 w-4 fill-primary text-primary" />
                     ))}
                   </div>
-                  <span className="text-sm text-muted-foreground">Based on 60 Reviews</span>
+                  <span className="text-sm text-muted-foreground">80+ reviews on Google and Yelp</span>
                 </div>
               </div>
             </div>
