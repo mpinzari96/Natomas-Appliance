@@ -1,0 +1,41 @@
+{
+  "slug": "preview-fixture-no-image",
+  "title": "Preview fixture without images",
+  "excerpt": "Synthetic no-image template used to preview empty image slots. This is not a published article.",
+  "seoTitle": "Preview fixture without images (not for publication)",
+  "seoDescription": "Labeled no-image preview fixture for blog layout review. Not a published article.",
+  "status": "fixture",
+  "intro": "PREVIEW-FIXTURE-NO-IMAGE-NOT-FOR-PUBLICATION. This template has no hero and no inline images. Empty image fields must disappear in production layouts.",
+  "body": [
+    {
+      "type": "heading",
+      "level": 2,
+      "text": "[H2] Article without photos"
+    },
+    {
+      "type": "paragraph",
+      "text": "[Paragraph] When no hero or inline photo is supplied, the page should not reserve an empty figure, broken URL, or stock image."
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "text": "[H3] What to add later"
+    },
+    {
+      "type": "paragraph",
+      "text": "[Paragraph] Add a hero object and image blocks only after you have owned or licensed photos with GPS metadata stripped."
+    }
+  ],
+  "serviceLinks": [
+    {
+      "href": "/services/washer-repair",
+      "label": "Washer repair"
+    }
+  ],
+  "areaLinks": [
+    {
+      "href": "/service-areas/natomas",
+      "label": "Natomas"
+    }
+  ]
+}
