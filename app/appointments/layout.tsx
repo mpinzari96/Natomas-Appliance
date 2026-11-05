@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Online Appointments | Natomas Appliance",
+  title: "Online Appointments",
   description:
     "Schedule your appliance repair service online with Natomas Appliance. Fast, reliable service for all major brands.",
 }

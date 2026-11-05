@@ -1,5 +1,5 @@
 import type React from "react"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 import { Inter } from "next/font/google"
 
 import { SiteHeader } from "@/components/site-header"
@@ -12,10 +12,18 @@ import "./globals.css"
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Natomas Appliance - Reliable Appliance Repair Services",
+  metadataBase: new URL("https://www.natomasappliance.com"),
+  title: {
+    default: "Natomas Appliance - Reliable Appliance Repair Services",
+    template: "%s | Natomas Appliance",
+  },
   description:
     "Professional appliance repair services for all brands and types of appliances in the Natomas area.",
-    generator: 'v0.app'
+}
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -25,12 +33,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="overflow-x-hidden">
-      <head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-        />
-      </head>
       <body className={`${inter.className} overflow-x-hidden`}>
         <GoogleTracking />
 

@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Service Areas | Natomas Appliance",
+  title: "Service Areas",
   description:
     "Natomas Appliance provides professional appliance repair services throughout Sacramento County and surrounding areas.",
 }

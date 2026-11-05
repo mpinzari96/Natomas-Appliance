@@ -1,41 +1,68 @@
+import type { Metadata } from "next"
 import Link from "next/link"
+import { notFound } from "next/navigation"
 import { ArrowLeft, CheckCircle, Wrench } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { AppointmentModal } from "@/components/appointment-modal"
 import { PhoneLink } from "@/components/phone-link"
 
-export function generateStaticParams() {
-  const services = [
-    "cooktop-repair",
-    "dishwasher-repair",
-    "dryer-repair",
-    "dryer-vent-repair",
-    "freezer-repair",
-    "ice-maker-repair",
-    "microwave-repair",
-    "oven-repair",
-    "range-repair",
-    "range-hood-repair",
-    "refrigerator-repair",
-    "washer-repair",
-    "wine-cooler-repair",
-    "wine-refrigerator-repair",
-    "appliance-maintenance",
-    "refrigerator-maintenance",
-    "washer-maintenance",
-    "dryer-maintenance",
-  ]
+const serviceSlugs = [
+  "cooktop-repair",
+  "dishwasher-repair",
+  "dryer-repair",
+  "dryer-vent-repair",
+  "freezer-repair",
+  "ice-maker-repair",
+  "microwave-repair",
+  "oven-repair",
+  "range-repair",
+  "range-hood-repair",
+  "refrigerator-repair",
+  "washer-repair",
+  "wine-cooler-repair",
+  "wine-refrigerator-repair",
+  "appliance-maintenance",
+  "refrigerator-maintenance",
+  "washer-maintenance",
+  "dryer-maintenance",
+]
 
-  return services.map((service) => ({
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return serviceSlugs.map((service) => ({
     service,
   }))
 }
 
-export default function ServicePage({ params }: { params: { service: string } }) {
-  const serviceName = params.service
+function formatServiceName(slug: string) {
+  return slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
+}
+
+export function generateMetadata({ params }: { params: { service: string } }): Metadata {
+  if (!serviceSlugs.includes(params.service)) {
+    notFound()
+  }
+
+  const serviceName = formatServiceName(params.service)
+
+  return {
+    title: {
+      absolute: `${serviceName} in Sacramento | Natomas Appliance`,
+    },
+    description: `Professional ${serviceName.toLowerCase()} in Sacramento and Natomas. Same-day service and upfront pricing from Natomas Appliance.`,
+  }
+}
+
+export default function ServicePage({ params }: { params: { service: string } }) {
+  if (!serviceSlugs.includes(params.service)) {
+    notFound()
+  }
+
+  const serviceName = formatServiceName(params.service)
 
   const isRepair = params.service.includes("repair")
   const applianceType = serviceName.replace(" Repair", "").replace(" Maintenance", "")
