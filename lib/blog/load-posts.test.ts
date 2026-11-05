@@ -447,21 +447,29 @@ test("draft posts may include labeled placeholders and stay off the published li
   assert.equal(isPostVisible(catalog.posts[0], previewEnv), true)
 })
 
-test("committed catalog keeps the refrigerator draft and no-image fixture unpublished", () => {
+test("committed catalog publishes the refrigerator article and keeps the no-image fixture unpublished", () => {
   resetBlogCatalogCache()
   const catalog = loadBlogCatalog()
-  assert.equal(catalog.published.length, 0)
   const slugs = catalog.posts.map((post) => post.slug).sort()
   assert.deepEqual(slugs, ["preview-fixture-no-image", "refrigerator-not-cooling-sacramento"])
-  const draft = catalog.posts.find((post) => post.slug === "refrigerator-not-cooling-sacramento")
+  const article = catalog.posts.find((post) => post.slug === "refrigerator-not-cooling-sacramento")
   const fixture = catalog.posts.find((post) => post.slug === "preview-fixture-no-image")
-  assert.equal(draft?.status, "draft")
+  assert.equal(article?.status, "published")
+  assert.equal(article && "publishedAt" in article ? article.publishedAt : undefined, "2026-11-05")
+  assert.equal(article?.hero, undefined)
+  assert.equal(article?.body.some((block) => block.type === "image"), false)
   assert.equal(fixture?.status, "fixture")
-  assert.equal("publishedAt" in (draft ?? {}), false)
-  assert.equal(isPostVisible(draft!, productionEnv), false)
+  assert.equal(catalog.published.length, 1)
+  assert.equal(catalog.published[0]?.slug, "refrigerator-not-cooling-sacramento")
+  assert.equal(isPostVisible(article!, productionEnv), true)
   assert.equal(isPostVisible(fixture!, productionEnv), false)
-  assert.equal(isPostVisible(draft!, previewEnv), true)
-  assert.deepEqual(publishedSitemapEntries(catalog.published), [])
+  assert.deepEqual(publishedSitemapEntries(catalog.published), [
+    { url: "https://www.natomasappliance.com/blog", lastModified: "2026-11-05" },
+    {
+      url: "https://www.natomasappliance.com/blog/refrigerator-not-cooling-sacramento",
+      lastModified: "2026-11-05",
+    },
+  ])
 })
 
 test("published metadata uses the absolute SEO title and a photo only when the hero is real", () => {

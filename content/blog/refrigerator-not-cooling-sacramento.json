@@ -4,15 +4,9 @@
   "excerpt": "Fridge warm but freezer cold? Learn possible causes, safe checks you can do, and when to call Natomas Appliance for Sacramento-area repair.",
   "seoTitle": "Refrigerator Not Cooling? 7 Causes & When to Call a Sacramento Tech",
   "seoDescription": "Fridge warm but freezer cold? Learn the common causes, safe checks you can do, and when to call Natomas Appliance for same-day Sacramento repair.",
-  "status": "draft",
+  "status": "published",
+  "publishedAt": "2026-11-05",
   "intro": "If your fridge is warm, you want a clear answer: is this a five-minute check, or do you need a technician in the Sacramento area today? Refrigerator-not-cooling jobs often fall into a few patterns. Some you can check yourself. Others need parts, tools, and a qualified technician. Below is how to tell the difference, how Sacramento-area heat can stress garage refrigerators, and when to book [refrigerator repair](/services/refrigerator-repair).",
-  "hero": {
-    "kind": "placeholder",
-    "label": "Intended shot: 16:9 hero of a technician inspecting refrigerator condenser coils. Owned or licensed photo only. No stock repair photos, customer faces, or address details.",
-    "alt": "Labeled 16:9 intended-shot placeholder for a technician inspecting refrigerator condenser coils. No photograph is attached.",
-    "aspect": "16:9",
-    "fit": "cover"
-  },
   "body": [
     {
       "type": "heading",
@@ -60,16 +54,6 @@
         "If the owner's manual shows condenser coils you can reach without moving a heavy appliance or opening electrical covers, unplug the refrigerator first, then vacuum loose dust. Cleaning accessible coils can help heat rejection if they are dirty. It does not repair a failed fan, compressor, or sealed-system part. Skip this step if you would have to lift, tip, or disassemble the unit.",
         "From outside the machine, listen for the compressor. Some evaporator fans pause when a door switch is open, so a quiet freezer with the door ajar is not proof the fan has failed."
       ]
-    },
-    {
-      "type": "image",
-      "image": {
-        "kind": "placeholder",
-        "label": "Intended shot: 4:3 uncropped diagnostic photo of an appliance thermometer in the fresh-food section, or frost on an evaporator. Use contain so numbers and frost edges stay uncropped.",
-        "alt": "Labeled 4:3 intended-shot placeholder for a refrigerator thermometer or frosted evaporator. No photograph is attached.",
-        "aspect": "4:3",
-        "fit": "contain"
-      }
     },
     {
       "type": "heading",

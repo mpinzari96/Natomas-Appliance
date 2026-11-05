@@ -68,7 +68,7 @@ The closing phone and booking CTA is already on the article page. Do not duplica
 
 ## Preview files in this folder
 
-`refrigerator-not-cooling-sacramento.json` is a real draft for preview review. It is not published. It has no publication date.
+`refrigerator-not-cooling-sacramento.json` is a published article. Photos are not attached yet, so hero and inline image fields are omitted and those slots stay hidden.
 
 `preview-fixture-no-image.json` is a labeled synthetic template used to check empty image slots. It is not an article. Keep it `status: "fixture"`.
 
