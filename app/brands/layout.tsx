@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: "Brands We Service | Natomas Appliance",
+  title: "Brands We Service",
   description:
     "Natomas Appliance repairs all major appliance brands including Whirlpool, GE, LG, Samsung, Maytag, and many more.",
 }

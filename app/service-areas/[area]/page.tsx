@@ -1,43 +1,70 @@
+import type { Metadata } from "next"
 import Link from "next/link"
+import { notFound } from "next/navigation"
 import { MapPin, ArrowLeft, Clock, Wrench } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { AppointmentModal } from "@/components/appointment-modal"
 import { PhoneLink } from "@/components/phone-link"
 
-export function generateStaticParams() {
-  const areas = [
-    "antelope",
-    "carmichael",
-    "citrus-heights",
-    "elk-grove",
-    "elverta",
-    "fair-oaks",
-    "folsom",
-    "granite-bay",
-    "lincoln",
-    "loomis",
-    "natomas",
-    "north-highlands",
-    "orangevale",
-    "rancho-cordova",
-    "rio-linda",
-    "rocklin",
-    "roseville",
-    "sacramento",
-    "west-sacramento",
-  ]
+const areaSlugs = [
+  "antelope",
+  "carmichael",
+  "citrus-heights",
+  "elk-grove",
+  "elverta",
+  "fair-oaks",
+  "folsom",
+  "granite-bay",
+  "lincoln",
+  "loomis",
+  "natomas",
+  "north-highlands",
+  "orangevale",
+  "rancho-cordova",
+  "rio-linda",
+  "rocklin",
+  "roseville",
+  "sacramento",
+  "west-sacramento",
+]
 
-  return areas.map((area) => ({
+export const dynamicParams = false
+
+export function generateStaticParams() {
+  return areaSlugs.map((area) => ({
     area,
   }))
 }
 
-export default function AreaPage({ params }: { params: { area: string } }) {
-  const areaName = params.area
+function formatAreaName(slug: string) {
+  return slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
+}
+
+export function generateMetadata({ params }: { params: { area: string } }): Metadata {
+  if (!areaSlugs.includes(params.area)) {
+    notFound()
+  }
+
+  const areaName = formatAreaName(params.area)
+
+  return {
+    title: {
+      absolute: `Appliance Repair in ${areaName}, CA | Natomas Appliance`,
+    },
+    description: `Appliance repair in ${areaName}, CA for refrigerators, washers, dryers, ovens, and more. Call Natomas Appliance at (916) 905-4476.`,
+  }
+}
+
+export default function AreaPage({ params }: { params: { area: string } }) {
+  if (!areaSlugs.includes(params.area)) {
+    notFound()
+  }
+
+  const areaName = formatAreaName(params.area)
 
   return (
     <div className="flex min-h-screen flex-col">
