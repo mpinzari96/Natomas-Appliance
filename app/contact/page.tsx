@@ -37,7 +37,7 @@ export default function ContactPage() {
              <TabsContent value="form" className="mt-6 w-full">
                <Card className="w-full">
                  <CardContent className="p-4 sm:p-6">
-                   <ContactForm webhookUrl="https://primary-production-e3b4e.up.railway.app/webhook/06a97321-2604-48d8-ab48-8148b90814a5" />
+                   <ContactForm subject="Website contact form" />
                  </CardContent>
                </Card>
              </TabsContent>

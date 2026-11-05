@@ -28,12 +28,14 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mgaadpge"
+
 interface ContactFormProps {
-  webhookUrl: string
+  subject: string
   buttonText?: string
 }
 
-export function ContactForm({ webhookUrl, buttonText = "Get a Free Quote" }: ContactFormProps) {
+export function ContactForm({ subject, buttonText = "Get a Free Quote" }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -53,16 +55,32 @@ export function ContactForm({ webhookUrl, buttonText = "Get a Free Quote" }: Con
     setError(null)
 
     try {
-      const response = await fetch(webhookUrl, {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: {
+          Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          message: values.message,
+          _subject: subject,
+        }),
       })
 
+      const data = (await response.json().catch(() => null)) as
+        | { error?: string; errors?: { message?: string }[] }
+        | null
+
       if (!response.ok) {
-        throw new Error("Failed to submit form. Please try again later.")
+        const formspreeMessage =
+          data?.errors
+            ?.map((item) => item.message)
+            .filter(Boolean)
+            .join(" ") || data?.error
+        throw new Error(formspreeMessage || "Failed to submit form. Please try again later.")
       }
 
       setIsSuccess(true)

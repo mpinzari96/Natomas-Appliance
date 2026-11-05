@@ -81,7 +81,7 @@ export function AppointmentModal({
           <TabsContent value="quote" className="mt-4">
             <Card>
               <CardContent className="p-6">
-                <ContactForm webhookUrl="https://primary-production-e3b4e.up.railway.app/webhook/06a97321-2604-48d8-ab48-8148b90814a5" />
+                <ContactForm subject="Website appointment request" />
               </CardContent>
             </Card>
           </TabsContent>
